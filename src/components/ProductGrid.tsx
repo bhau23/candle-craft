@@ -1,53 +1,17 @@
 import { Button } from "@/components/ui/button";
-import candle1 from "@/assets/candle-1.jpg";
-import candle2 from "@/assets/candle-2.jpg";
-import candle3 from "@/assets/candle-3.jpg";
-import candle4 from "@/assets/candle-4.jpg";
-import candle5 from "@/assets/candle-5.jpg";
-import candle6 from "@/assets/candle-6.jpg";
+import { useState } from "react";
+import product1_1 from "@/assets/products/product1/1.png";
+import product1_2 from "@/assets/products/product1/2.png";
+import product1_3 from "@/assets/products/product1/3.png";
+import product1_4 from "@/assets/products/product1/4.png";
 
 const products = [
   {
     id: 1,
-    name: "Vanilla Dream",
+    name: "Premium Artisan Candle",
     price: "$45",
-    image: candle1,
-    description: "Warm vanilla with notes of caramel"
-  },
-  {
-    id: 2,
-    name: "Lavender Fields",
-    price: "$48",
-    image: candle2,
-    description: "Calming lavender with bergamot"
-  },
-  {
-    id: 3,
-    name: "Eucalyptus Mint",
-    price: "$42",
-    image: candle3,
-    description: "Fresh eucalyptus with cooling mint"
-  },
-  {
-    id: 4,
-    name: "Sandalwood Essence",
-    price: "$52",
-    image: candle4,
-    description: "Rich sandalwood with amber"
-  },
-  {
-    id: 5,
-    name: "Rose Garden",
-    price: "$55",
-    image: candle5,
-    description: "Delicate rose with peony petals"
-  },
-  {
-    id: 6,
-    name: "Cedar Woods",
-    price: "$49",
-    image: candle6,
-    description: "Deep cedar with pine notes"
+    images: [product1_1, product1_2, product1_3, product1_4],
+    description: "Handcrafted with premium ingredients"
   }
 ];
 
@@ -64,44 +28,9 @@ const ProductGrid = () => {
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 justify-items-center">
           {products.map((product) => (
-            <div
-              key={product.id}
-              className="group cursor-pointer"
-            >
-              {/* Product Image Container */}
-              <div className="relative overflow-hidden bg-luxury-50 rounded-sm mb-4 aspect-square">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-luxury group-hover:scale-110"
-                />
-                
-                {/* Quick Add Button Overlay */}
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-luxury flex items-end justify-center pb-6">
-                  <Button
-                    variant="luxury-outline"
-                    className="border-2 border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-luxury px-8 py-3 font-medium tracking-wider"
-                  >
-                    QUICK ADD
-                  </Button>
-                </div>
-              </div>
-
-              {/* Product Info */}
-              <div className="text-center space-y-2">
-                <h3 className="text-lg lg:text-xl font-medium text-primary tracking-wide">
-                  {product.name}
-                </h3>
-                <p className="text-sm text-luxury-500 mb-2">
-                  {product.description}
-                </p>
-                <p className="text-lg font-semibold text-luxury-gold">
-                  {product.price}
-                </p>
-              </div>
-            </div>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
 
@@ -117,6 +46,84 @@ const ProductGrid = () => {
         </div>
       </div>
     </section>
+  );
+};
+
+const ProductCard = ({ product }: { product: any }) => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    // Start cycling through images when hovering
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % product.images.length);
+    }, 800); // Change image every 800ms
+
+    // Store interval ID to clear it later
+    (window as any).imageInterval = interval;
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setCurrentImageIndex(0); // Reset to first image
+    // Clear the interval
+    if ((window as any).imageInterval) {
+      clearInterval((window as any).imageInterval);
+      (window as any).imageInterval = null;
+    }
+  };
+
+  return (
+    <div
+      className="group cursor-pointer max-w-sm"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Product Image Container */}
+      <div className="relative overflow-hidden bg-luxury-50 rounded-sm mb-4 aspect-square">
+        <img
+          src={product.images[currentImageIndex]}
+          alt={product.name}
+          className="w-full h-full object-cover transition-all duration-500 ease-luxury group-hover:scale-105"
+        />
+        
+        {/* Quick Add Button Overlay */}
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-luxury flex items-end justify-center pb-6">
+          <Button
+            variant="luxury-outline"
+            className="border-2 border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-luxury px-8 py-3 font-medium tracking-wider"
+          >
+            QUICK ADD
+          </Button>
+        </div>
+
+        {/* Image indicators */}
+        <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {product.images.map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === currentImageIndex ? 'bg-white' : 'bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Product Info */}
+      <div className="text-center space-y-2">
+        <h3 className="text-lg lg:text-xl font-medium text-primary tracking-wide">
+          {product.name}
+        </h3>
+        <p className="text-sm text-luxury-500 mb-2">
+          {product.description}
+        </p>
+        <p className="text-lg font-semibold text-luxury-gold">
+          {product.price}
+        </p>
+      </div>
+    </div>
   );
 };
 
