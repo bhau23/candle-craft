@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
 import product1_3 from "@/assets/products/product1/3.png";
@@ -52,6 +53,7 @@ const ProductGrid = () => {
 const ProductCard = ({ product }: { product: any }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const navigate = useNavigate();
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -74,11 +76,26 @@ const ProductCard = ({ product }: { product: any }) => {
     }
   };
 
+  const handleProductClick = (e: React.MouseEvent) => {
+    // Don't navigate if clicking on the Quick Add button
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    navigate(`/product/${product.id}`);
+  };
+
+  const handleQuickAdd = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Add quick add logic here
+    console.log('Quick add clicked for product:', product.id);
+  };
+
   return (
     <div
       className="group cursor-pointer max-w-sm"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleProductClick}
     >
       {/* Product Image Container */}
       <div className="relative overflow-hidden bg-luxury-50 rounded-sm mb-4 aspect-square">
@@ -91,6 +108,7 @@ const ProductCard = ({ product }: { product: any }) => {
         {/* Quick Add Button Overlay */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-luxury flex items-end justify-center pb-6">
           <Button
+            onClick={handleQuickAdd}
             variant="luxury-outline"
             className="border-2 border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-primary transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 ease-luxury px-8 py-3 font-medium tracking-wider"
           >
