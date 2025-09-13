@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logos/logo.png";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -45,7 +46,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex-shrink-0 h-12 md:h-16 w-36 md:w-44 overflow-hidden rounded-md bg-white/5">
             <img 
-              src="/src/assets/logos/logo.png" 
+              src={logo} 
               alt="Candle Craft Logo" 
               className="h-full w-full object-cover scale-150 transform origin-center"
               style={{
