@@ -10,6 +10,22 @@ import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
 import product1_3 from "@/assets/products/product1/3.png";
 import product1_4 from "@/assets/products/product1/4.png";
+import product2_1 from "@/assets/products/product2/1.png";
+import product2_2 from "@/assets/products/product2/2.png";
+import product2_3 from "@/assets/products/product2/3.png";
+import product2_4 from "@/assets/products/product2/4.png";
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice: number;
+  description: string;
+  images: string[];
+  sizes: string[];
+  features: string[];
+  specifications: Record<string, string>;
+}
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -18,29 +34,55 @@ const ProductDetail = () => {
   const [selectedSize, setSelectedSize] = useState('100 gm');
   const [isGift, setIsGift] = useState(false);
 
-  // Product data - for now using static data but can be made dynamic
-  const product = {
-    id: 1,
-    name: "Goodnight Kiss",
-    price: 790.00,
-    originalPrice: 990.00,
-    description: "Goodnight Kiss with timeless Eucalyptus and Lavender is the perfectly relaxing candle, as you prepare to unwind after a long day.",
-    images: [product1_1, product1_2, product1_3, product1_4],
-    sizes: ['100 gm', '160 gm'],
-    features: [
-      "Hand-poured with premium soy wax",
-      "Long-lasting burn time of 30+ hours",
-      "Natural cotton wick",
-      "Reusable glass container"
-    ],
-    specifications: {
-      "Burn Time": "30-35 hours",
-      "Wax Type": "Premium Soy Wax",
-      "Wick": "Cotton Wick",
-      "Fragrance": "Eucalyptus & Lavender",
-      "Container": "Reusable Glass"
+  // Product data - dynamic based on ID
+  const products: Record<number, Product> = {
+    1: {
+      id: 1,
+      name: "Goodnight Kiss",
+      price: 790.00,
+      originalPrice: 990.00,
+      description: "Goodnight Kiss with timeless Eucalyptus and Lavender is the perfectly relaxing candle, as you prepare to unwind after a long day.",
+      images: [product1_1, product1_2, product1_3, product1_4],
+      sizes: ['100 gm', '160 gm'],
+      features: [
+        "Hand-poured with premium soy wax",
+        "Long-lasting burn time of 30+ hours",
+        "Natural cotton wick",
+        "Reusable glass container"
+      ],
+      specifications: {
+        "Burn Time": "30-35 hours",
+        "Wax Type": "Premium Soy Wax",
+        "Wick": "Cotton Wick",
+        "Fragrance": "Eucalyptus & Lavender",
+        "Container": "Reusable Glass"
+      }
+    },
+    2: {
+      id: 2,
+      name: "Serenity Blend",
+      price: 850.00,
+      originalPrice: 1050.00,
+      description: "Serenity Blend with premium vanilla and sandalwood creates the perfect ambiance for relaxation and tranquility in your home.",
+      images: [product2_1, product2_2, product2_3, product2_4],
+      sizes: ['100 gm', '160 gm'],
+      features: [
+        "Hand-poured with premium soy wax",
+        "Long-lasting burn time of 35+ hours",
+        "Natural cotton wick",
+        "Reusable glass container"
+      ],
+      specifications: {
+        "Burn Time": "35-40 hours",
+        "Wax Type": "Premium Soy Wax",
+        "Wick": "Cotton Wick",
+        "Fragrance": "Vanilla & Sandalwood",
+        "Container": "Reusable Glass"
+      }
     }
   };
+
+  const product = products[parseInt(id || '1')] || products[1];
 
   const handleSizeChange = (size: string) => {
     setSelectedSize(size);

@@ -5,14 +5,25 @@ import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
 import product1_3 from "@/assets/products/product1/3.png";
 import product1_4 from "@/assets/products/product1/4.png";
+import product2_1 from "@/assets/products/product2/1.png";
+import product2_2 from "@/assets/products/product2/2.png";
+import product2_3 from "@/assets/products/product2/3.png";
+import product2_4 from "@/assets/products/product2/4.png";
 
 const products = [
   {
     id: 1,
-    name: "Premium Artisan Candle",
-    price: "$45",
+    name: "Goodnight Kiss",
+    price: "₹790",
     images: [product1_1, product1_2, product1_3, product1_4],
-    description: "Handcrafted with premium ingredients"
+    description: "Eucalyptus & Lavender blend for relaxation"
+  },
+  {
+    id: 2,
+    name: "Serenity Blend", 
+    price: "₹850",
+    images: [product2_1, product2_2, product2_3, product2_4],
+    description: "Vanilla & Sandalwood for tranquility"
   }
 ];
 

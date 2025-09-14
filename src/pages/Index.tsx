@@ -6,6 +6,16 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-candles.jpg";
 
 const Index = () => {
+  const scrollToCollection = () => {
+    const collectionsSection = document.getElementById('collections');
+    if (collectionsSection) {
+      collectionsSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -36,6 +46,7 @@ const Index = () => {
               <Button 
                 variant="luxury-outline" 
                 size="lg"
+                onClick={scrollToCollection}
                 className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-primary text-base md:text-lg px-8 md:px-12 py-4 md:py-6 font-medium tracking-widest transition-all duration-500 ease-luxury"
               >
                 SHOP THE COLLECTION
