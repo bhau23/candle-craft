@@ -147,7 +147,7 @@ const ProductDetail = () => {
               <Checkbox 
                 id="gift-option" 
                 checked={isGift}
-                onCheckedChange={setIsGift}
+                onCheckedChange={(checked) => setIsGift(checked === true)}
               />
               <label 
                 htmlFor="gift-option" 
