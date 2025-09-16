@@ -342,29 +342,6 @@ const ProductDetail = () => {
             </TabsContent>
           </Tabs>
         </div>
-
-        {/* Shipping and Returns */}
-        <div className="mt-8">
-          <Card>
-            <CardContent className="p-6">
-              <h4 className="font-semibold text-foreground mb-4">Shipping and Returns</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-muted-foreground">
-                <div>
-                  <h5 className="font-medium text-foreground mb-2">Shipping</h5>
-                  <p>Free shipping on orders above Rs. 1,000</p>
-                  <p>Standard delivery: 3-5 business days</p>
-                  <p>Express delivery: 1-2 business days</p>
-                </div>
-                <div>
-                  <h5 className="font-medium text-foreground mb-2">Returns</h5>
-                  <p>30-day return policy</p>
-                  <p>Items must be unused and in original packaging</p>
-                  <p>Free returns for defective items</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </div>
     </div>
   );
