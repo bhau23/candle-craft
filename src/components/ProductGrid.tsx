@@ -9,6 +9,14 @@ import product2_1 from "@/assets/products/product2/1.png";
 import product2_2 from "@/assets/products/product2/2.png";
 import product2_3 from "@/assets/products/product2/3.png";
 import product2_4 from "@/assets/products/product2/4.png";
+import product3_1 from "@/assets/products/product3/1.png";
+import product3_2 from "@/assets/products/product3/2.png";
+import product3_3 from "@/assets/products/product3/3.png";
+import product3_4 from "@/assets/products/product3/4.png";
+import product4_1 from "@/assets/products/product4/1.png";
+import product4_2 from "@/assets/products/product4/2.png";
+import product4_3 from "@/assets/products/product4/3.png";
+import product4_4 from "@/assets/products/product4/4.png";
 
 const products = [
   {
@@ -24,6 +32,20 @@ const products = [
     price: "₹850",
     images: [product2_1, product2_2, product2_3, product2_4],
     description: "Vanilla & Sandalwood for tranquility"
+  },
+  {
+    id: 3,
+    name: "Mystic Harmony",
+    price: "₹920",
+    images: [product3_1, product3_2, product3_3, product3_4],
+    description: "Jasmine & Cedar blend for inner peace"
+  },
+  {
+    id: 4,
+    name: "Ocean Breeze",
+    price: "₹880",
+    images: [product4_1, product4_2, product4_3, product4_4],
+    description: "Fresh citrus & sea salt for rejuvenation"
   }
 ];
 

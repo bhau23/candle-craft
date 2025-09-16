@@ -14,6 +14,14 @@ import product2_1 from "@/assets/products/product2/1.png";
 import product2_2 from "@/assets/products/product2/2.png";
 import product2_3 from "@/assets/products/product2/3.png";
 import product2_4 from "@/assets/products/product2/4.png";
+import product3_1 from "@/assets/products/product3/1.png";
+import product3_2 from "@/assets/products/product3/2.png";
+import product3_3 from "@/assets/products/product3/3.png";
+import product3_4 from "@/assets/products/product3/4.png";
+import product4_1 from "@/assets/products/product4/1.png";
+import product4_2 from "@/assets/products/product4/2.png";
+import product4_3 from "@/assets/products/product4/3.png";
+import product4_4 from "@/assets/products/product4/4.png";
 
 interface Product {
   id: number;
@@ -77,6 +85,50 @@ const ProductDetail = () => {
         "Wax Type": "Premium Soy Wax",
         "Wick": "Cotton Wick",
         "Fragrance": "Vanilla & Sandalwood",
+        "Container": "Reusable Glass"
+      }
+    },
+    3: {
+      id: 3,
+      name: "Mystic Harmony",
+      price: 920.00,
+      originalPrice: 1150.00,
+      description: "Mystic Harmony with enchanting jasmine and cedar creates a perfect blend for inner peace and spiritual connection in your sacred space.",
+      images: [product3_1, product3_2, product3_3, product3_4],
+      sizes: ['100 gm', '160 gm'],
+      features: [
+        "Hand-poured with premium soy wax",
+        "Long-lasting burn time of 38+ hours",
+        "Natural cotton wick",
+        "Reusable glass container"
+      ],
+      specifications: {
+        "Burn Time": "38-42 hours",
+        "Wax Type": "Premium Soy Wax",
+        "Wick": "Cotton Wick",
+        "Fragrance": "Jasmine & Cedar",
+        "Container": "Reusable Glass"
+      }
+    },
+    4: {
+      id: 4,
+      name: "Ocean Breeze",
+      price: 880.00,
+      originalPrice: 1100.00,
+      description: "Ocean Breeze with refreshing citrus and sea salt brings the invigorating essence of the ocean into your home for ultimate rejuvenation.",
+      images: [product4_1, product4_2, product4_3, product4_4],
+      sizes: ['100 gm', '160 gm'],
+      features: [
+        "Hand-poured with premium soy wax",
+        "Long-lasting burn time of 32+ hours",
+        "Natural cotton wick",
+        "Reusable glass container"
+      ],
+      specifications: {
+        "Burn Time": "32-36 hours",
+        "Wax Type": "Premium Soy Wax",
+        "Wick": "Cotton Wick",
+        "Fragrance": "Fresh Citrus & Sea Salt",
         "Container": "Reusable Glass"
       }
     }
