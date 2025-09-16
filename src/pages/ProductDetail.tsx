@@ -30,7 +30,6 @@ interface Product {
   originalPrice: number;
   description: string;
   images: string[];
-  sizes: string[];
   features: string[];
   specifications: Record<string, string>;
 }
@@ -39,7 +38,6 @@ const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState('100 gm');
   const [isGift, setIsGift] = useState(false);
 
   // Product data - dynamic based on ID
@@ -51,7 +49,6 @@ const ProductDetail = () => {
       originalPrice: 990.00,
       description: "Goodnight Kiss with timeless Eucalyptus and Lavender is the perfectly relaxing candle, as you prepare to unwind after a long day.",
       images: [product1_1, product1_2, product1_3, product1_4],
-      sizes: ['100 gm', '160 gm'],
       features: [
         "Hand-poured with premium soy wax",
         "Long-lasting burn time of 30+ hours",
@@ -63,7 +60,8 @@ const ProductDetail = () => {
         "Wax Type": "Premium Soy Wax",
         "Wick": "Cotton Wick",
         "Fragrance": "Eucalyptus & Lavender",
-        "Container": "Reusable Glass"
+        "Container": "Reusable Glass",
+        "Weight": "150 gm"
       }
     },
     2: {
@@ -73,7 +71,6 @@ const ProductDetail = () => {
       originalPrice: 1050.00,
       description: "Serenity Blend with premium vanilla and sandalwood creates the perfect ambiance for relaxation and tranquility in your home.",
       images: [product2_1, product2_2, product2_3, product2_4],
-      sizes: ['100 gm', '160 gm'],
       features: [
         "Hand-poured with premium soy wax",
         "Long-lasting burn time of 35+ hours",
@@ -85,7 +82,8 @@ const ProductDetail = () => {
         "Wax Type": "Premium Soy Wax",
         "Wick": "Cotton Wick",
         "Fragrance": "Vanilla & Sandalwood",
-        "Container": "Reusable Glass"
+        "Container": "Reusable Glass",
+        "Weight": "150 gm"
       }
     },
     3: {
@@ -95,7 +93,6 @@ const ProductDetail = () => {
       originalPrice: 1150.00,
       description: "Mystic Harmony with enchanting jasmine and cedar creates a perfect blend for inner peace and spiritual connection in your sacred space.",
       images: [product3_1, product3_2, product3_3, product3_4],
-      sizes: ['100 gm', '160 gm'],
       features: [
         "Hand-poured with premium soy wax",
         "Long-lasting burn time of 38+ hours",
@@ -107,7 +104,8 @@ const ProductDetail = () => {
         "Wax Type": "Premium Soy Wax",
         "Wick": "Cotton Wick",
         "Fragrance": "Jasmine & Cedar",
-        "Container": "Reusable Glass"
+        "Container": "Reusable Glass",
+        "Weight": "150 gm"
       }
     },
     4: {
@@ -117,7 +115,6 @@ const ProductDetail = () => {
       originalPrice: 1100.00,
       description: "Ocean Breeze with refreshing citrus and sea salt brings the invigorating essence of the ocean into your home for ultimate rejuvenation.",
       images: [product4_1, product4_2, product4_3, product4_4],
-      sizes: ['100 gm', '160 gm'],
       features: [
         "Hand-poured with premium soy wax",
         "Long-lasting burn time of 32+ hours",
@@ -129,25 +126,22 @@ const ProductDetail = () => {
         "Wax Type": "Premium Soy Wax",
         "Wick": "Cotton Wick",
         "Fragrance": "Fresh Citrus & Sea Salt",
-        "Container": "Reusable Glass"
+        "Container": "Reusable Glass",
+        "Weight": "150 gm"
       }
     }
   };
 
   const product = products[parseInt(id || '1')] || products[1];
 
-  const handleSizeChange = (size: string) => {
-    setSelectedSize(size);
-  };
-
   const handleAddToCart = () => {
     // Add to cart logic here
-    console.log('Added to cart:', { product, size: selectedSize, isGift });
+    console.log('Added to cart:', { product, isGift });
   };
 
   const handleBuyNow = () => {
     // Buy now logic here
-    console.log('Buy now:', { product, size: selectedSize, isGift });
+    console.log('Buy now:', { product, isGift });
   };
 
   return (
@@ -216,23 +210,6 @@ const ProductDetail = () => {
                 <Badge variant="secondary" className="text-green-600">
                   {Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)}% OFF
                 </Badge>
-              </div>
-            </div>
-
-            {/* Size Selection */}
-            <div className="space-y-3">
-              <h3 className="text-lg font-semibold">Size</h3>
-              <div className="flex gap-3">
-                {product.sizes.map((size) => (
-                  <Button
-                    key={size}
-                    variant={selectedSize === size ? "default" : "outline"}
-                    onClick={() => handleSizeChange(size)}
-                    className="min-w-[80px]"
-                  >
-                    {size}
-                  </Button>
-                ))}
               </div>
             </div>
 
