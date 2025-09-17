@@ -14,13 +14,13 @@ import product2_1 from "@/assets/products/product2/1.png";
 import product2_2 from "@/assets/products/product2/2.png";
 import product2_3 from "@/assets/products/product2/3.png";
 import product2_4 from "@/assets/products/product2/4.png";
-import product3_1 from "@/assets/products/product3/1.png";
+import product3_1 from "@/assets/products/product3/1.jpeg";
 import product3_2 from "@/assets/products/product3/2.png";
-import product3_3 from "@/assets/products/product3/3.png";
+import product3_3 from "@/assets/products/product3/3.jpeg";
 import product3_4 from "@/assets/products/product3/4.png";
 import product4_1 from "@/assets/products/product4/1.png";
-import product4_2 from "@/assets/products/product4/2.png";
-import product4_3 from "@/assets/products/product4/3.png";
+import product4_2 from "@/assets/products/product4/2.jpeg";
+import product4_3 from "@/assets/products/product4/3.jpeg";
 import product4_4 from "@/assets/products/product4/4.png";
 
 interface Product {
