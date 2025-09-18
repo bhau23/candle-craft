@@ -17,6 +17,10 @@ import product4_1 from "@/assets/products/product4/1.png";
 import product4_2 from "@/assets/products/product4/2.jpeg";
 import product4_3 from "@/assets/products/product4/3.jpeg";
 import product4_4 from "@/assets/products/product4/4.png";
+import product5_1 from "@/assets/products/product5/1.jpeg";
+import product5_2 from "@/assets/products/product5/2.jpeg";
+import product5_3 from "@/assets/products/product5/3.png";
+import product5_4 from "@/assets/products/product5/4.jpeg";
 
 const products = [
   {
@@ -46,6 +50,13 @@ const products = [
     price: "₹880",
     images: [product4_1, product4_2, product4_3, product4_4],
     description: "Fresh citrus & sea salt for rejuvenation"
+  },
+  {
+    id: 5,
+    name: "Golden Sanctuary",
+    price: "₹950",
+    images: [product5_1, product5_2, product5_3, product5_4],
+    description: "Warm amber & honey for luxurious comfort"
   }
 ];
 

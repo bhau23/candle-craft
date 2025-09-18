@@ -22,6 +22,10 @@ import product4_1 from "@/assets/products/product4/1.png";
 import product4_2 from "@/assets/products/product4/2.jpeg";
 import product4_3 from "@/assets/products/product4/3.jpeg";
 import product4_4 from "@/assets/products/product4/4.png";
+import product5_1 from "@/assets/products/product5/1.jpeg";
+import product5_2 from "@/assets/products/product5/2.jpeg";
+import product5_3 from "@/assets/products/product5/3.png";
+import product5_4 from "@/assets/products/product5/4.jpeg";
 
 interface Product {
   id: number | string;
@@ -126,6 +130,28 @@ const ProductDetail = () => {
         "Wax Type": "Premium Soy Wax",
         "Wick": "Cotton Wick",
         "Fragrance": "Fresh Citrus & Sea Salt",
+        "Container": "Reusable Glass",
+        "Weight": "150 gm"
+      }
+    },
+    5: {
+      id: 5,
+      name: "Golden Sanctuary",
+      price: 950.00,
+      originalPrice: 1200.00,
+      description: "Golden Sanctuary with warm amber and honey creates a luxurious atmosphere that envelops your space in comfort and opulence.",
+      images: [product5_1, product5_2, product5_3, product5_4],
+      features: [
+        "Hand-poured with premium soy wax",
+        "Long-lasting burn time of 40+ hours",
+        "Natural cotton wick",
+        "Reusable glass container"
+      ],
+      specifications: {
+        "Burn Time": "40-45 hours",
+        "Wax Type": "Premium Soy Wax",
+        "Wick": "Cotton Wick",
+        "Fragrance": "Warm Amber & Honey",
         "Container": "Reusable Glass",
         "Weight": "150 gm"
       }
