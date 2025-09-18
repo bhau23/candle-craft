@@ -7,6 +7,12 @@ import gift1_3 from "@/assets/products/gift1/3.png";
 import gift1_4 from "@/assets/products/gift1/4.png";
 import gift1_5 from "@/assets/products/gift1/5.jpeg";
 import gift1_6 from "@/assets/products/gift1/6.png";
+import gift2_1 from "@/assets/products/gift2/1.png";
+import gift2_2 from "@/assets/products/gift2/2.png";
+import gift2_3 from "@/assets/products/gift2/3.jpg";
+import gift2_4 from "@/assets/products/gift2/4.png";
+import gift2_5 from "@/assets/products/gift2/5.png";
+import gift2_6 from "@/assets/products/gift2/6.png";
 
 const giftingProducts = [
   {
@@ -23,35 +29,57 @@ const giftingProducts = [
       "Elegant packaging",
       "Perfect for gifting"
     ]
+  },
+  {
+    id: 'gift2',
+    name: "Luxury Heritage Collection",
+    price: "₹1,799",
+    originalPrice: "₹2,199",
+    images: [gift2_1, gift2_2, gift2_3, gift2_4, gift2_5, gift2_6],
+    description: "A sophisticated collection of artisanal candles with timeless elegance",
+    features: [
+      "Premium beeswax blend",
+      "Artisan hand-crafted",
+      "60+ hours burn time",
+      "Heritage packaging",
+      "Signature fragrance collection"
+    ]
   }
 ];
 
 const GiftingSection = () => {
   const navigate = useNavigate();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
+  const [currentImageIndexes, setCurrentImageIndexes] = useState<{[key: string]: number}>({});
+  const [hoveringProduct, setHoveringProduct] = useState<string | null>(null);
 
   const handleProductClick = (productId: string) => {
     navigate(`/gift/${productId}`);
   };
 
-  const handleMouseEnter = () => {
-    setIsHovering(true);
+  const handleMouseEnter = (productId: string) => {
+    setHoveringProduct(productId);
+    const product = giftingProducts.find(p => p.id === productId);
+    if (!product) return;
+    
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        (prevIndex + 1) % giftingProducts[0].images.length
-      );
+      setCurrentImageIndexes(prev => ({
+        ...prev,
+        [productId]: ((prev[productId] || 0) + 1) % product.images.length
+      }));
     }, 600); // Change image every 600ms
     
-    // Store interval ID on the component for cleanup
-    (window as any).imageChangeInterval = interval;
+    // Store interval ID on the window for cleanup
+    (window as any)[`imageChangeInterval_${productId}`] = interval;
   };
 
-  const handleMouseLeave = () => {
-    setIsHovering(false);
-    setCurrentImageIndex(0);
-    if ((window as any).imageChangeInterval) {
-      clearInterval((window as any).imageChangeInterval);
+  const handleMouseLeave = (productId: string) => {
+    setHoveringProduct(null);
+    setCurrentImageIndexes(prev => ({
+      ...prev,
+      [productId]: 0
+    }));
+    if ((window as any)[`imageChangeInterval_${productId}`]) {
+      clearInterval((window as any)[`imageChangeInterval_${productId}`]);
     }
   };
 
@@ -70,19 +98,19 @@ const GiftingSection = () => {
         </div>
 
         {/* Product Grid */}
-        <div className="flex justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
           {giftingProducts.map((product) => (
             <div
               key={product.id}
-              className="group cursor-pointer max-w-md w-full"
+              className="group cursor-pointer"
               onClick={() => handleProductClick(product.id)}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
+              onMouseEnter={() => handleMouseEnter(product.id)}
+              onMouseLeave={() => handleMouseLeave(product.id)}
             >
               {/* Product Image Container */}
               <div className="relative overflow-hidden bg-white rounded-lg mb-6 aspect-square shadow-lg">
                 <img
-                  src={product.images[currentImageIndex]}
+                  src={product.images[currentImageIndexes[product.id] || 0]}
                   alt={product.name}
                   className="w-full h-full object-cover transition-transform duration-700 ease-luxury group-hover:scale-110"
                 />

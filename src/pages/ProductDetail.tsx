@@ -159,7 +159,6 @@ const ProductDetail = () => {
   };
 
   const product = products[parseInt(id || '1')] || products[1];
-
   const handleAddToCart = () => {
     // Add to cart logic here
     console.log('Added to cart:', { product, isGift });

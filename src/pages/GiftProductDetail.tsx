@@ -26,6 +26,12 @@ import gift1_3 from "@/assets/products/gift1/3.png";
 import gift1_4 from "@/assets/products/gift1/4.png";
 import gift1_5 from "@/assets/products/gift1/5.jpeg";
 import gift1_6 from "@/assets/products/gift1/6.png";
+import gift2_1 from "@/assets/products/gift2/1.png";
+import gift2_2 from "@/assets/products/gift2/2.png";
+import gift2_3 from "@/assets/products/gift2/3.jpg";
+import gift2_4 from "@/assets/products/gift2/4.png";
+import gift2_5 from "@/assets/products/gift2/5.png";
+import gift2_6 from "@/assets/products/gift2/6.png";
 
 interface GiftProduct {
   id: string;
@@ -81,6 +87,38 @@ const GiftProductDetail = () => {
         "Container": "Premium Glass Set",
         "Weight": "450 gm total",
         "Packaging": "Luxury Gift Box"
+      }
+    },
+    'gift2': {
+      id: 'gift2',
+      name: "Luxury Heritage Collection",
+      price: 1799.00,
+      originalPrice: 2199.00,
+      description: "A sophisticated collection of artisanal candles with timeless elegance. Each piece is carefully crafted using traditional techniques, featuring premium materials and distinctive heritage-inspired fragrances.",
+      images: [gift2_1, gift2_2, gift2_3, gift2_4, gift2_5, gift2_6],
+      features: [
+        "Premium beeswax blend",
+        "Artisan hand-crafted",
+        "60+ hours burn time",
+        "Heritage wooden packaging",
+        "Signature fragrance collection",
+        "Limited edition design"
+      ],
+      giftFeatures: [
+        "Handcrafted wooden gift box",
+        "Premium gold ribbon wrapping",
+        "Personalized brass nameplate",
+        "White-glove delivery service",
+        "Certificate of authenticity"
+      ],
+      specifications: {
+        "Total Burn Time": "60+ hours",
+        "Wax Type": "Premium Beeswax Blend",
+        "Wick": "Wooden Wick",
+        "Fragrance": "Heritage Scent Collection",
+        "Container": "Artisan Glass Collection",
+        "Weight": "650 gm total",
+        "Packaging": "Heritage Wooden Box"
       }
     }
   };
