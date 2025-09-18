@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Share2 } from "lucide-react";
+import ImagePreview from "@/components/ImagePreview";
 import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
 import product1_3 from "@/assets/products/product1/3.png";
@@ -43,6 +44,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(0);
   const [isGift, setIsGift] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   // Product data - dynamic based on ID
   const products: Record<number | string, Product> = {
@@ -190,7 +192,8 @@ const ProductDetail = () => {
               <img 
                 src={product.images[selectedImage]} 
                 alt={product.name}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+                onClick={() => setIsPreviewOpen(true)}
               />
             </div>
             
@@ -209,7 +212,12 @@ const ProductDetail = () => {
                   <img 
                     src={image} 
                     alt={`${product.name} view ${index + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedImage(index);
+                      setIsPreviewOpen(true);
+                    }}
                   />
                 </button>
               ))}
@@ -341,6 +349,14 @@ const ProductDetail = () => {
           </Tabs>
         </div>
       </div>
+
+      {/* Image Preview Modal */}
+      <ImagePreview
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        image={product.images[selectedImage]}
+        alt={`${product.name} - View ${selectedImage + 1}`}
+      />
     </div>
   );
 };

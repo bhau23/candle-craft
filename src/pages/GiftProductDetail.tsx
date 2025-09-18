@@ -20,6 +20,7 @@ import {
   Diamond,
   Ribbon
 } from "lucide-react";
+import ImagePreview from "@/components/ImagePreview";
 import gift1_1 from "@/assets/products/gift1/1.png";
 import gift1_2 from "@/assets/products/gift1/2.png";
 import gift1_3 from "@/assets/products/gift1/3.png";
@@ -54,6 +55,7 @@ const GiftProductDetail = () => {
   const [giftMessage, setGiftMessage] = useState('');
   const [recipientName, setRecipientName] = useState('');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   // Gift product data
   const giftProducts: Record<string, GiftProduct> = {
@@ -195,7 +197,8 @@ const GiftProductDetail = () => {
                 <img 
                   src={product.images[selectedImage]} 
                   alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
+                  onClick={() => setIsPreviewOpen(true)}
                 />
               </div>
               
@@ -214,7 +217,12 @@ const GiftProductDetail = () => {
                     <img 
                       src={image} 
                       alt={`View ${index + 1}`}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover cursor-pointer"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedImage(index);
+                        setIsPreviewOpen(true);
+                      }}
                     />
                   </button>
                 ))}
@@ -448,6 +456,14 @@ const GiftProductDetail = () => {
           </Tabs>
         </div>
       </div>
+
+      {/* Image Preview Modal */}
+      <ImagePreview
+        isOpen={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        image={product.images[selectedImage]}
+        alt={`${product.name} - View ${selectedImage + 1}`}
+      />
     </div>
   );
 };
