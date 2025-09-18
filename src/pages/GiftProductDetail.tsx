@@ -217,12 +217,7 @@ const GiftProductDetail = () => {
                     <img 
                       src={image} 
                       alt={`View ${index + 1}`}
-                      className="w-full h-full object-cover cursor-pointer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedImage(index);
-                        setIsPreviewOpen(true);
-                      }}
+                      className="w-full h-full object-cover"
                     />
                   </button>
                 ))}

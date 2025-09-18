@@ -212,12 +212,7 @@ const ProductDetail = () => {
                   <img 
                     src={image} 
                     alt={`${product.name} view ${index + 1}`}
-                    className="w-full h-full object-cover cursor-pointer"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedImage(index);
-                      setIsPreviewOpen(true);
-                    }}
+                    className="w-full h-full object-cover"
                   />
                 </button>
               ))}
