@@ -32,7 +32,7 @@ const GiftingSection = () => {
   const [isHovering, setIsHovering] = useState(false);
 
   const handleProductClick = (productId: string) => {
-    navigate(`/product/${productId}`);
+    navigate(`/gift/${productId}`);
   };
 
   const handleMouseEnter = () => {

@@ -22,12 +22,6 @@ import product4_1 from "@/assets/products/product4/1.png";
 import product4_2 from "@/assets/products/product4/2.jpeg";
 import product4_3 from "@/assets/products/product4/3.jpeg";
 import product4_4 from "@/assets/products/product4/4.png";
-import gift1_1 from "@/assets/products/gift1/1.png";
-import gift1_2 from "@/assets/products/gift1/2.png";
-import gift1_3 from "@/assets/products/gift1/3.png";
-import gift1_4 from "@/assets/products/gift1/4.png";
-import gift1_5 from "@/assets/products/gift1/5.jpeg";
-import gift1_6 from "@/assets/products/gift1/6.png";
 
 interface Product {
   id: number | string;
@@ -135,35 +129,10 @@ const ProductDetail = () => {
         "Container": "Reusable Glass",
         "Weight": "150 gm"
       }
-    },
-    'gift1': {
-      id: 'gift1',
-      name: "Premium Gift Set",
-      price: 1299.00,
-      originalPrice: 1599.00,
-      description: "An exquisitely crafted candle gift set perfect for special occasions. This premium collection features multiple candles with distinctive fragrances, beautifully packaged for the perfect gift experience.",
-      images: [gift1_1, gift1_2, gift1_3, gift1_4, gift1_5, gift1_6],
-      features: [
-        "Premium soy wax blend",
-        "Hand-poured with love",
-        "Long-lasting burn time 50+ hours total",
-        "Elegant gift packaging",
-        "Multiple signature scents",
-        "Perfect for gifting"
-      ],
-      specifications: {
-        "Total Burn Time": "50+ hours",
-        "Wax Type": "Premium Soy Wax Blend",
-        "Wick": "Cotton Wick",
-        "Fragrance": "Signature Scent Collection",
-        "Container": "Premium Glass Set",
-        "Weight": "450 gm total",
-        "Packaging": "Luxury Gift Box"
-      }
     }
   };
 
-  const product = products[id || '1'] || products[parseInt(id || '1')] || products[1];
+  const product = products[parseInt(id || '1')] || products[1];
 
   const handleAddToCart = () => {
     // Add to cart logic here
