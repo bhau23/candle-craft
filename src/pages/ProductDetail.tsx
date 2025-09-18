@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Heart, Share2 } from "lucide-react";
+import { ArrowLeft, Share2 } from "lucide-react";
 import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
 import product1_3 from "@/assets/products/product1/3.png";
@@ -273,10 +273,6 @@ const ProductDetail = () => {
 
             {/* Action Icons */}
             <div className="flex justify-center gap-6 pt-4">
-              <Button variant="ghost" size="sm" className="flex items-center gap-2">
-                <Heart className="w-4 h-4" />
-                Add to Wishlist
-              </Button>
               <Button variant="ghost" size="sm" className="flex items-center gap-2">
                 <Share2 className="w-4 h-4" />
                 Share
