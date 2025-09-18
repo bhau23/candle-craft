@@ -124,316 +124,289 @@ const GiftProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-luxury-50 via-white to-luxury-100">
-      {/* Elegant Header with floating effect */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex items-center justify-between mb-8">
+      {/* Mobile-Optimized Header */}
+      <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-luxury-200">
+        <div className="container mx-auto px-4 py-3">
           <Button 
             variant="ghost" 
             onClick={() => navigate(-1)}
-            className="group hover:bg-white/80 backdrop-blur-sm border border-luxury-200 shadow-lg transition-all duration-300"
+            className="group hover:bg-luxury-50 transition-all duration-300 p-2"
           >
-            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
-            Back to Gifts
+            <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
+            <span className="text-sm font-medium">Back to Gifts</span>
           </Button>
         </div>
+      </div>
 
-        {/* Hero Section with Elegant Design */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-luxury-900 via-luxury-800 to-luxury-900 p-1 mb-12 shadow-2xl">
-          {/* Animated background pattern */}
-          <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/5 via-transparent to-luxury-gold/5 animate-pulse"></div>
-          <div className="relative bg-white rounded-3xl overflow-hidden backdrop-blur-sm">
-            <div className="grid grid-cols-1 lg:grid-cols-2">
-              {/* Enhanced Image Gallery */}
-              <div className="relative bg-gradient-to-br from-luxury-50 to-white p-8 lg:p-12">
-                {/* Floating decorative elements */}
-                <div className="absolute top-4 right-4 text-luxury-300 animate-pulse">
-                  <Sparkles className="w-6 h-6" />
+      <div className="container mx-auto px-4 py-4 space-y-6">
+        {/* Desktop Layout: Two Column, Mobile: Single Column */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Image Gallery Section */}
+          <div className="bg-white rounded-2xl shadow-lg border border-luxury-100 p-4 md:p-6">
+            {/* Main Product Image - Smaller on Desktop */}
+            <div className="relative">
+              <div className="aspect-square max-w-md mx-auto rounded-xl overflow-hidden bg-luxury-50 mb-4 group">
+                {/* Floating decorative elements - smaller for mobile */}
+                <div className="absolute top-2 right-2 text-luxury-300 animate-pulse z-10">
+                  <Sparkles className="w-4 h-4" />
                 </div>
-                <div className="absolute bottom-4 left-4 text-luxury-300 animate-pulse delay-1000">
-                  <Diamond className="w-5 h-5" />
-                </div>
-                <div className="absolute top-1/2 left-2 text-luxury-200/50 animate-bounce delay-500">
-                  <Star className="w-4 h-4" />
-                </div>
-                <div className="absolute top-1/4 right-8 text-luxury-200/50 animate-bounce delay-700">
-                  <Crown className="w-4 h-4" />
+                <div className="absolute bottom-2 left-2 text-luxury-300 animate-pulse delay-1000 z-10">
+                  <Diamond className="w-3 h-3" />
                 </div>
                 
-                {/* Main Product Display */}
-                <div className="relative">
-                  {/* Main Image with elegant frame */}
-                  <div className="relative aspect-square rounded-2xl overflow-hidden bg-white shadow-luxury-lg border-4 border-luxury-100 group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-luxury-gold/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-luxury-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <img 
+                  src={product.images[selectedImage]} 
+                  alt={product.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              
+              {/* Thumbnail Gallery */}
+              <div className="grid grid-cols-6 gap-2 max-w-md mx-auto">
+                {product.images.map((image, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImage(index)}
+                    className={`aspect-square rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                      selectedImage === index 
+                        ? 'border-luxury-gold ring-2 ring-luxury-gold/30' 
+                        : 'border-luxury-200 hover:border-luxury-300'
+                    }`}
+                  >
                     <img 
-                      src={product.images[selectedImage]} 
-                      alt={product.name}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-700 ease-luxury animate-fade-in"
+                      src={image} 
+                      alt={`View ${index + 1}`}
+                      className="w-full h-full object-cover"
                     />
-                  </div>
-                  
-                  {/* Elegant Thumbnail Gallery */}
-                  <div className="flex gap-3 mt-6 justify-center">
-                    {product.images.map((image, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setSelectedImage(index)}
-                        className={`relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 ${
-                          selectedImage === index 
-                            ? 'border-luxury-gold shadow-luxury-md ring-2 ring-luxury-gold/30' 
-                            : 'border-luxury-200 hover:border-luxury-300'
-                        }`}
-                      >
-                        <img 
-                          src={image} 
-                          alt={`${product.name} view ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
-                        {selectedImage === index && (
-                          <div className="absolute inset-0 bg-luxury-gold/20"></div>
-                        )}
-                      </button>
-                    ))}
-                  </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Product Information Section */}
+          <div className="bg-white rounded-2xl shadow-lg border border-luxury-100 p-4 md:p-6 space-y-6">
+            {/* Product Title and Price */}
+            <div className="space-y-4">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-light text-luxury-900 tracking-wide leading-tight">
+                {product.name}
+              </h1>
+              
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                <span className="text-2xl md:text-3xl font-bold text-luxury-gold">
+                  Rs. {product.price.toFixed(2)}
+                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-lg text-muted-foreground line-through">
+                    Rs. {product.originalPrice.toFixed(2)}
+                  </span>
+                  <Badge variant="secondary" className="text-green-600 px-2 py-1 text-xs">
+                    Save Rs. {(product.originalPrice - product.price).toFixed(2)}
+                  </Badge>
                 </div>
               </div>
+            </div>
 
-              {/* Enhanced Product Information */}
-              <div className="p-8 lg:p-12 bg-gradient-to-br from-white via-luxury-25 to-luxury-50">
-                <div className="space-y-8">
-                  {/* Product Title with Luxury Styling */}
-                  <div className="border-b border-luxury-200 pb-6">
-                    <h1 className="text-4xl lg:text-5xl font-light text-luxury-900 mb-4 tracking-wide bg-gradient-to-r from-luxury-900 via-luxury-800 to-luxury-900 bg-clip-text">
-                      {product.name}
-                    </h1>
-                    <div className="flex items-center gap-4 mb-4 animate-fade-in">
-                      <span className="text-3xl font-bold text-luxury-gold drop-shadow-sm">
-                        Rs. {product.price.toFixed(2)}
-                      </span>
-                      <span className="text-xl text-muted-foreground line-through">
-                        Rs. {product.originalPrice.toFixed(2)}
-                      </span>
-                      <Badge variant="secondary" className="text-green-600 px-3 py-1 animate-pulse">
-                        Save Rs. {(product.originalPrice - product.price).toFixed(2)}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  {/* Gift Customization Section */}
-                  <div className="space-y-6 border-b border-luxury-200 pb-6">
-                    <div className="flex items-center gap-2 text-luxury-700">
-                      <Package className="w-5 h-5" />
-                      <h3 className="font-semibold text-lg">Customize Your Gift</h3>
-                    </div>
-                    
-                    {/* Ribbon Selection */}
-                    <div className="space-y-3">
-                      <Label className="text-sm font-medium text-luxury-700">Choose Ribbon Color</Label>
-                      <Select value={selectedRibbon} onValueChange={setSelectedRibbon}>
-                        <SelectTrigger className="w-full border-luxury-200 focus:border-luxury-gold">
-                          <SelectValue placeholder="Select ribbon color" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="gold">✨ Luxury Gold</SelectItem>
-                          <SelectItem value="silver">🤍 Elegant Silver</SelectItem>
-                          <SelectItem value="burgundy">❤️ Classic Burgundy</SelectItem>
-                          <SelectItem value="navy">💙 Royal Navy</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    {/* Recipient Name */}
-                    <div className="space-y-3">
-                      <Label htmlFor="recipient" className="text-sm font-medium text-luxury-700">Recipient Name (Optional)</Label>
-                      <Input
-                        id="recipient"
-                        value={recipientName}
-                        onChange={(e) => setRecipientName(e.target.value)}
-                        placeholder="Enter recipient's name"
-                        className="border-luxury-200 focus:border-luxury-gold"
-                      />
-                    </div>
-
-                    {/* Gift Message */}
-                    <div className="space-y-3">
-                      <Label htmlFor="message" className="text-sm font-medium text-luxury-700">Personal Message (Optional)</Label>
-                      <Textarea
-                        id="message"
-                        value={giftMessage}
-                        onChange={(e) => setGiftMessage(e.target.value)}
-                        placeholder="Write a heartfelt message..."
-                        className="min-h-20 border-luxury-200 focus:border-luxury-gold resize-none"
-                        maxLength={200}
-                      />
-                      <p className="text-xs text-luxury-500">{giftMessage.length}/200 characters</p>
-                    </div>
-                  </div>
-
-                  {/* Enhanced Action Buttons */}
-                  <div className="space-y-4">
-                    <Button 
-                      onClick={handleAddToCart}
-                      variant="outline" 
-                      className="w-full py-6 text-lg font-semibold border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-white transition-all duration-300 group"
-                    >
-                      <Package className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
-                      ADD TO CART
-                    </Button>
-                    <Button 
-                      onClick={handleBuyNow}
-                      className="w-full py-6 text-lg font-semibold bg-gradient-to-r from-luxury-gold to-luxury-600 hover:from-luxury-600 hover:to-luxury-700 text-white shadow-luxury-md hover:shadow-luxury-lg transition-all duration-300 group"
-                    >
-                      <Sparkles className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                      BUY AS GIFT NOW
-                    </Button>
-                  </div>
-
-                  {/* Action Icons */}
-                  <div className="flex justify-center gap-8 pt-4">
-                    <Button variant="ghost" size="sm" className="group text-luxury-600 hover:text-luxury-gold">
-                      <Share2 className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform duration-300" />
-                      Share
-                    </Button>
-                  </div>
+            {/* Gift Customization */}
+            <div className="space-y-6 border-t border-luxury-200 pt-6">
+              <div className="flex items-center gap-2 text-luxury-700">
+                <Package className="w-5 h-5" />
+                <h3 className="font-semibold text-lg">Customize Your Gift</h3>
+              </div>
+              
+              {/* Form Controls */}
+              <div className="space-y-4">
+                {/* Ribbon Selection */}
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-luxury-700">Ribbon Color</Label>
+                  <Select value={selectedRibbon} onValueChange={setSelectedRibbon}>
+                    <SelectTrigger className="w-full h-12 border-luxury-200 focus:border-luxury-gold text-base">
+                      <SelectValue placeholder="Select ribbon color" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="gold">✨ Luxury Gold</SelectItem>
+                      <SelectItem value="silver">🤍 Elegant Silver</SelectItem>
+                      <SelectItem value="burgundy">❤️ Classic Burgundy</SelectItem>
+                      <SelectItem value="navy">💙 Royal Navy</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
+
+                {/* Recipient Name */}
+                <div className="space-y-2">
+                  <Label htmlFor="recipient" className="text-sm font-medium text-luxury-700">Recipient Name (Optional)</Label>
+                  <Input
+                    id="recipient"
+                    value={recipientName}
+                    onChange={(e) => setRecipientName(e.target.value)}
+                    placeholder="Enter recipient's name"
+                    className="h-12 border-luxury-200 focus:border-luxury-gold text-base"
+                  />
+                </div>
+
+                {/* Gift Message */}
+                <div className="space-y-2">
+                  <Label htmlFor="message" className="text-sm font-medium text-luxury-700">Personal Message (Optional)</Label>
+                  <Textarea
+                    id="message"
+                    value={giftMessage}
+                    onChange={(e) => setGiftMessage(e.target.value)}
+                    placeholder="Write a heartfelt message..."
+                    className="min-h-24 border-luxury-200 focus:border-luxury-gold resize-none text-base"
+                    maxLength={200}
+                  />
+                  <p className="text-xs text-luxury-500 text-right">{giftMessage.length}/200</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-3 border-t border-luxury-200 pt-6">
+              <Button 
+                onClick={handleAddToCart}
+                variant="outline" 
+                size="lg"
+                className="w-full h-14 text-base font-semibold border-2 border-luxury-gold text-luxury-gold hover:bg-luxury-gold hover:text-white transition-all duration-300"
+              >
+                <Package className="w-5 h-5 mr-2" />
+                ADD TO CART
+              </Button>
+              <Button 
+                onClick={handleBuyNow}
+                size="lg"
+                className="w-full h-14 text-base font-semibold bg-gradient-to-r from-luxury-gold to-luxury-600 hover:from-luxury-600 hover:to-luxury-700 text-white shadow-lg transition-all duration-300"
+              >
+                <Sparkles className="w-5 h-5 mr-2" />
+                BUY AS GIFT NOW
+              </Button>
+              
+              {/* Share Button */}
+              <div className="flex justify-center pt-2">
+                <Button variant="ghost" size="sm" className="text-luxury-600 hover:text-luxury-gold">
+                  <Share2 className="w-4 h-4 mr-2" />
+                  Share This Gift
+                </Button>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Enhanced Product Details with Gift Features */}
-        <div className="bg-white rounded-2xl shadow-luxury-lg border border-luxury-100 p-8">
+        {/* Mobile-Optimized Product Details */}
+        <div className="bg-white rounded-2xl shadow-lg border border-luxury-100 overflow-hidden">
           <Tabs defaultValue="description" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 lg:w-2/3 bg-luxury-50 rounded-xl p-1">
-              <TabsTrigger value="description" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md">Description</TabsTrigger>
-              <TabsTrigger value="gift-features" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md">Gift Features</TabsTrigger>
-              <TabsTrigger value="behind-scenes" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md">Craftsmanship</TabsTrigger>
-              <TabsTrigger value="specifications" className="rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-md">Specifications</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-luxury-50 rounded-none h-auto p-1 gap-1">
+              <TabsTrigger value="description" className="text-xs sm:text-sm data-[state=active]:bg-white px-2 py-3 rounded">Description</TabsTrigger>
+              <TabsTrigger value="gift-features" className="text-xs sm:text-sm data-[state=active]:bg-white px-2 py-3 rounded">Gift Features</TabsTrigger>
+              <TabsTrigger value="behind-scenes" className="text-xs sm:text-sm data-[state=active]:bg-white px-2 py-3 rounded">Craftsmanship</TabsTrigger>
+              <TabsTrigger value="specifications" className="text-xs sm:text-sm data-[state=active]:bg-white px-2 py-3 rounded">Specifications</TabsTrigger>
             </TabsList>
             
-            <TabsContent value="description" className="mt-8">
-              <Card className="border-luxury-100 shadow-md">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Gift className="w-6 h-6 text-luxury-gold" />
-                    <h3 className="text-xl font-semibold text-luxury-900">Product Description</h3>
+            {/* Mobile tabs content with proper spacing */}
+            <div className="p-4 md:p-6">
+              <TabsContent value="description" className="mt-0 space-y-4">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Gift className="w-5 h-5 text-luxury-gold" />
+                    <h3 className="text-lg font-semibold text-luxury-900">Product Description</h3>
                   </div>
-                  <p className="text-luxury-700 leading-relaxed mb-8 text-lg">
+                  <p className="text-luxury-700 leading-relaxed">
                     {product.description}
                   </p>
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-luxury-900 text-lg flex items-center gap-2">
-                      <Sparkles className="w-5 h-5 text-luxury-gold" />
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-luxury-900 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-luxury-gold" />
                       Key Features
                     </h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
                       {product.features.map((feature, index) => (
-                        <div key={index} className="flex items-start gap-3 p-4 bg-luxury-50 rounded-lg border border-luxury-100">
+                        <div key={index} className="flex items-start gap-3 p-3 bg-luxury-50 rounded-lg">
                           <div className="w-2 h-2 bg-luxury-gold rounded-full mt-2 flex-shrink-0"></div>
-                          <span className="text-luxury-700">{feature}</span>
+                          <span className="text-luxury-700 text-sm">{feature}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="gift-features" className="mt-8">
-              <Card className="border-luxury-100 shadow-md">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Ribbon className="w-6 h-6 text-luxury-gold" />
-                    <h3 className="text-xl font-semibold text-luxury-900">Exclusive Gift Features</h3>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="gift-features" className="mt-0 space-y-4">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Ribbon className="w-5 h-5 text-luxury-gold" />
+                    <h3 className="text-lg font-semibold text-luxury-900">Exclusive Gift Features</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
                     {product.giftFeatures.map((feature, index) => (
-                      <div key={index} className="flex items-start gap-4 p-6 bg-gradient-to-r from-luxury-50 to-luxury-100 rounded-xl border border-luxury-200">
-                        <div className="w-3 h-3 bg-gradient-to-r from-luxury-gold to-luxury-600 rounded-full mt-2 flex-shrink-0"></div>
-                        <span className="text-luxury-700 font-medium">{feature}</span>
+                      <div key={index} className="flex items-start gap-3 p-4 bg-gradient-to-r from-luxury-50 to-luxury-100 rounded-lg">
+                        <div className="w-2 h-2 bg-gradient-to-r from-luxury-gold to-luxury-600 rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-luxury-700 font-medium text-sm">{feature}</span>
                       </div>
                     ))}
                   </div>
-                  
-                  <div className="mt-8 p-6 bg-gradient-to-r from-luxury-gold/10 to-luxury-600/10 rounded-xl border border-luxury-200">
-                    <h4 className="font-semibold text-luxury-900 mb-3 flex items-center gap-2">
-                      <Crown className="w-5 h-5 text-luxury-gold" />
-                      Premium Gift Experience
-                    </h4>
-                    <p className="text-luxury-700 leading-relaxed">
-                      Every gift is meticulously prepared by our luxury packaging team, ensuring an unforgettable unboxing experience. 
-                      From the moment your recipient receives the package to the last candle burning, every detail is crafted to create lasting memories.
-                    </p>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="behind-scenes" className="mt-0 space-y-4">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Diamond className="w-5 h-5 text-luxury-gold" />
+                    <h3 className="text-lg font-semibold text-luxury-900">Artisan Craftsmanship</h3>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="behind-scenes" className="mt-8">
-              <Card className="border-luxury-100 shadow-md">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Diamond className="w-6 h-6 text-luxury-gold" />
-                    <h3 className="text-xl font-semibold text-luxury-900">Artisan Craftsmanship</h3>
-                  </div>
-                  <div className="space-y-6">
-                    <p className="text-luxury-700 leading-relaxed text-lg">
+                  <div className="space-y-4">
+                    <p className="text-luxury-700 leading-relaxed text-sm">
                       Each Premium Gift Set is carefully curated and hand-assembled by our skilled artisans. Every candle is 
-                      individually hand-poured using premium soy wax and the finest essential oil blends, ensuring consistent 
-                      quality and an exceptional fragrance experience.
+                      individually hand-poured using premium soy wax and the finest essential oil blends.
                     </p>
-                    <p className="text-luxury-700 leading-relaxed">
+                    <p className="text-luxury-700 leading-relaxed text-sm">
                       Our sustainable approach combines traditional craftsmanship with modern luxury. The elegant packaging 
-                      is made from responsibly sourced materials, and every glass container can be beautifully repurposed 
-                      after the candles have finished burning.
+                      is made from responsibly sourced materials.
                     </p>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                      <div className="text-center p-6 bg-luxury-50 rounded-xl border border-luxury-100">
-                        <div className="w-12 h-12 bg-luxury-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Package className="w-6 h-6 text-white" />
+                    {/* Mobile-optimized feature highlights */}
+                    <div className="space-y-3 mt-6">
+                      <div className="flex items-start gap-3 p-3 bg-luxury-50 rounded-lg">
+                        <Package className="w-5 h-5 text-luxury-gold mt-1 flex-shrink-0" />
+                        <div>
+                          <h5 className="font-semibold text-luxury-900 text-sm">Hand-Assembled</h5>
+                          <p className="text-xs text-luxury-600">Carefully curated by expert hands</p>
                         </div>
-                        <h5 className="font-semibold text-luxury-900 mb-2">Hand-Assembled</h5>
-                        <p className="text-sm text-luxury-600">Carefully curated by expert hands</p>
                       </div>
-                      <div className="text-center p-6 bg-luxury-50 rounded-xl border border-luxury-100">
-                        <div className="w-12 h-12 bg-luxury-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Sparkles className="w-6 h-6 text-white" />
+                      <div className="flex items-start gap-3 p-3 bg-luxury-50 rounded-lg">
+                        <Sparkles className="w-5 h-5 text-luxury-gold mt-1 flex-shrink-0" />
+                        <div>
+                          <h5 className="font-semibold text-luxury-900 text-sm">Premium Quality</h5>
+                          <p className="text-xs text-luxury-600">Only the finest materials used</p>
                         </div>
-                        <h5 className="font-semibold text-luxury-900 mb-2">Premium Quality</h5>
-                        <p className="text-sm text-luxury-600">Only the finest materials used</p>
                       </div>
-                      <div className="text-center p-6 bg-luxury-50 rounded-xl border border-luxury-100">
-                        <div className="w-12 h-12 bg-luxury-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Crown className="w-6 h-6 text-white" />
+                      <div className="flex items-start gap-3 p-3 bg-luxury-50 rounded-lg">
+                        <Crown className="w-5 h-5 text-luxury-gold mt-1 flex-shrink-0" />
+                        <div>
+                          <h5 className="font-semibold text-luxury-900 text-sm">Luxury Experience</h5>
+                          <p className="text-xs text-luxury-600">Unforgettable unboxing moments</p>
                         </div>
-                        <h5 className="font-semibold text-luxury-900 mb-2">Luxury Experience</h5>
-                        <p className="text-sm text-luxury-600">Unforgettable unboxing moments</p>
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="specifications" className="mt-8">
-              <Card className="border-luxury-100 shadow-md">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Package className="w-6 h-6 text-luxury-gold" />
-                    <h3 className="text-xl font-semibold text-luxury-900">Product Specifications</h3>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="specifications" className="mt-0 space-y-4">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Package className="w-5 h-5 text-luxury-gold" />
+                    <h3 className="text-lg font-semibold text-luxury-900">Product Specifications</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
                     {Object.entries(product.specifications).map(([key, value]) => (
-                      <div key={key} className="flex justify-between items-center p-4 bg-luxury-50 rounded-lg border border-luxury-100">
-                        <span className="font-medium text-luxury-900">{key}:</span>
-                        <span className="text-luxury-700 font-semibold">{value}</span>
+                      <div key={key} className="flex justify-between items-center p-3 bg-luxury-50 rounded-lg">
+                        <span className="font-medium text-luxury-900 text-sm">{key}:</span>
+                        <span className="text-luxury-700 font-semibold text-sm">{value}</span>
                       </div>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                </div>
+              </TabsContent>
+            </div>
           </Tabs>
         </div>
       </div>
