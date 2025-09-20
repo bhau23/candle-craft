@@ -3,6 +3,7 @@ import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/logos/logo.png";
 
 const Header = () => {
@@ -15,6 +16,8 @@ const Header = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const { getCartSummary } = useCart();
+  const cartSummary = getCartSummary();
 
   // All searchable products data
   const allProducts = [
@@ -187,21 +190,35 @@ const Header = () => {
             <Button variant="luxury-ghost" size="icon" className="relative">
               <User className="h-5 w-5" />
             </Button>
-            <Button variant="luxury-ghost" size="icon" className="relative">
+            <Button 
+              variant="luxury-ghost" 
+              size="icon" 
+              className="relative"
+              onClick={() => navigate('/cart')}
+            >
               <ShoppingBag className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 h-4 w-4 bg-luxury-gold text-primary text-xs rounded-full flex items-center justify-center font-medium">
-                2
-              </span>
+              {cartSummary.totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 h-4 w-4 bg-luxury-gold text-primary text-xs rounded-full flex items-center justify-center font-medium">
+                  {cartSummary.totalItems}
+                </span>
+              )}
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-1">
-            <Button variant="luxury-ghost" size="icon" className="relative h-10 w-10">
+            <Button 
+              variant="luxury-ghost" 
+              size="icon" 
+              className="relative h-10 w-10"
+              onClick={() => navigate('/cart')}
+            >
               <ShoppingBag className="h-4 w-4" />
-              <span className="absolute -top-1 -right-1 h-3 w-3 bg-luxury-gold text-primary text-xs rounded-full flex items-center justify-center font-medium text-[10px]">
-                2
-              </span>
+              {cartSummary.totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 h-3 w-3 bg-luxury-gold text-primary text-xs rounded-full flex items-center justify-center font-medium text-[10px]">
+                  {cartSummary.totalItems}
+                </span>
+              )}
             </Button>
             <Button
               variant="luxury-ghost"

@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "@/hooks/use-toast";
 import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
 import product1_3 from "@/assets/products/product1/3.png";
@@ -26,37 +28,112 @@ const products = [
   {
     id: 1,
     name: "Goodnight Kiss",
-    price: "₹790",
+    price: 790.00,
+    originalPrice: 990.00,
+    description: "Goodnight Kiss with timeless Eucalyptus and Lavender is the perfectly relaxing candle, as you prepare to unwind after a long day.",
     images: [product1_1, product1_2, product1_3, product1_4],
-    description: "Eucalyptus & Lavender blend for relaxation"
+    features: [
+      "Hand-poured with premium soy wax",
+      "Long-lasting burn time of 30+ hours",
+      "Natural cotton wick",
+      "Reusable glass container"
+    ],
+    specifications: {
+      "Burn Time": "30-35 hours",
+      "Wax Type": "Premium Soy Wax",
+      "Wick": "Cotton Wick",
+      "Fragrance": "Eucalyptus & Lavender",
+      "Container": "Reusable Glass",
+      "Weight": "150 gm"
+    }
   },
   {
     id: 2,
-    name: "Serenity Blend", 
-    price: "₹850",
+    name: "Serenity Blend",
+    price: 850.00,
+    originalPrice: 1050.00,
+    description: "Serenity Blend with premium vanilla and sandalwood creates the perfect ambiance for relaxation and tranquility in your home.",
     images: [product2_1, product2_2, product2_3, product2_4],
-    description: "Vanilla & Sandalwood for tranquility"
+    features: [
+      "Hand-poured with premium soy wax",
+      "Long-lasting burn time of 35+ hours",
+      "Natural cotton wick",
+      "Reusable glass container"
+    ],
+    specifications: {
+      "Burn Time": "35-40 hours",
+      "Wax Type": "Premium Soy Wax",
+      "Wick": "Cotton Wick",
+      "Fragrance": "Vanilla & Sandalwood",
+      "Container": "Reusable Glass",
+      "Weight": "150 gm"
+    }
   },
   {
     id: 3,
     name: "Mystic Harmony",
-    price: "₹920",
+    price: 920.00,
+    originalPrice: 1150.00,
+    description: "Mystic Harmony with enchanting jasmine and cedar creates a perfect blend for inner peace and spiritual connection in your sacred space.",
     images: [product3_1, product3_2, product3_3, product3_4],
-    description: "Jasmine & Cedar blend for inner peace"
+    features: [
+      "Hand-poured with premium soy wax",
+      "Long-lasting burn time of 38+ hours",
+      "Natural cotton wick",
+      "Reusable glass container"
+    ],
+    specifications: {
+      "Burn Time": "38-42 hours",
+      "Wax Type": "Premium Soy Wax",
+      "Wick": "Cotton Wick",
+      "Fragrance": "Jasmine & Cedar",
+      "Container": "Reusable Glass",
+      "Weight": "150 gm"
+    }
   },
   {
     id: 4,
     name: "Ocean Breeze",
-    price: "₹880",
+    price: 880.00,
+    originalPrice: 1100.00,
+    description: "Ocean Breeze with refreshing citrus and sea salt brings the invigorating essence of the ocean into your home for ultimate rejuvenation.",
     images: [product4_1, product4_2, product4_3, product4_4],
-    description: "Fresh citrus & sea salt for rejuvenation"
+    features: [
+      "Hand-poured with premium soy wax",
+      "Long-lasting burn time of 32+ hours",
+      "Natural cotton wick",
+      "Reusable glass container"
+    ],
+    specifications: {
+      "Burn Time": "32-36 hours",
+      "Wax Type": "Premium Soy Wax",
+      "Wick": "Cotton Wick",
+      "Fragrance": "Fresh Citrus & Sea Salt",
+      "Container": "Reusable Glass",
+      "Weight": "150 gm"
+    }
   },
   {
     id: 5,
     name: "Golden Sanctuary",
-    price: "₹950",
+    price: 950.00,
+    originalPrice: 1200.00,
+    description: "Golden Sanctuary with warm amber and honey creates a luxurious atmosphere that envelops your space in comfort and opulence.",
     images: [product5_1, product5_2, product5_3, product5_4],
-    description: "Warm amber & honey for luxurious comfort"
+    features: [
+      "Hand-poured with premium soy wax",
+      "Long-lasting burn time of 40+ hours",
+      "Natural cotton wick",
+      "Reusable glass container"
+    ],
+    specifications: {
+      "Burn Time": "40-45 hours",
+      "Wax Type": "Premium Soy Wax",
+      "Wick": "Cotton Wick",
+      "Fragrance": "Warm Amber & Honey",
+      "Container": "Reusable Glass",
+      "Weight": "150 gm"
+    }
   }
 ];
 
@@ -98,6 +175,7 @@ const ProductCard = ({ product }: { product: any }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -130,8 +208,11 @@ const ProductCard = ({ product }: { product: any }) => {
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // Add quick add logic here
-    console.log('Quick add clicked for product:', product.id);
+    addToCart(product);
+    toast({
+      title: "Added to Cart",
+      description: `${product.name} has been added to your cart.`,
+    });
   };
 
   return (
@@ -181,9 +262,17 @@ const ProductCard = ({ product }: { product: any }) => {
         <p className="text-sm text-luxury-500 mb-2">
           {product.description}
         </p>
-        <p className="text-lg font-semibold text-luxury-gold">
-          {product.price}
-        </p>
+        <div className="flex items-center justify-center gap-2 flex-wrap">
+          <span className="text-lg font-bold text-primary">
+            ₹{product.price.toFixed(2)}
+          </span>
+          <span className="text-sm text-gray-500 line-through">
+            ₹{product.originalPrice.toFixed(2)}
+          </span>
+          <span className="text-xs text-green-600 font-medium">
+            {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% OFF
+          </span>
+        </div>
       </div>
     </div>
   );

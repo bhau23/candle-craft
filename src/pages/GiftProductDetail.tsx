@@ -9,6 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "@/hooks/use-toast";
 import { 
   ArrowLeft, 
   Share2, 
@@ -49,6 +51,7 @@ interface GiftProduct {
 const GiftProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
   const [isGift, setIsGift] = useState(true);
   const [selectedRibbon, setSelectedRibbon] = useState('gold');
@@ -139,23 +142,40 @@ const GiftProductDetail = () => {
   }, [product.images.length]);
 
   const handleAddToCart = () => {
-    console.log('Added gift to cart:', { 
-      product, 
-      isGift, 
-      selectedRibbon, 
-      giftMessage, 
-      recipientName
+    // Convert gift product to regular product format for cart
+    const productForCart = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      description: product.description,
+      images: product.images,
+      features: product.features,
+      specifications: product.specifications
+    };
+    
+    addToCart(productForCart, isGift);
+    toast({
+      title: "Added to Cart",
+      description: `${product.name} has been added to your cart${isGift ? ' as a gift' : ''}.`,
     });
   };
 
   const handleBuyNow = () => {
-    console.log('Buy gift now:', { 
-      product, 
-      isGift, 
-      selectedRibbon, 
-      giftMessage, 
-      recipientName
-    });
+    // Convert gift product to regular product format for cart
+    const productForCart = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      description: product.description,
+      images: product.images,
+      features: product.features,
+      specifications: product.specifications
+    };
+    
+    addToCart(productForCart, isGift);
+    navigate('/cart');
   };
 
   if (!product) {

@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Share2 } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { toast } from "@/hooks/use-toast";
 import ImagePreview from "@/components/ImagePreview";
 import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
@@ -42,6 +44,7 @@ interface Product {
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { addToCart } = useCart();
   const [selectedImage, setSelectedImage] = useState(0);
   const [isGift, setIsGift] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -161,14 +164,18 @@ const ProductDetail = () => {
   };
 
   const product = products[parseInt(id || '1')] || products[1];
+  
   const handleAddToCart = () => {
-    // Add to cart logic here
-    console.log('Added to cart:', { product, isGift });
+    addToCart(product, isGift);
+    toast({
+      title: "Added to Cart",
+      description: `${product.name} has been added to your cart${isGift ? ' as a gift' : ''}.`,
+    });
   };
 
   const handleBuyNow = () => {
-    // Buy now logic here
-    console.log('Buy now:', { product, isGift });
+    addToCart(product, isGift);
+    navigate('/cart');
   };
 
   return (
@@ -252,7 +259,7 @@ const ProductDetail = () => {
                 htmlFor="gift-option" 
                 className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
               >
-                Make it a gift
+                Make it a gift (+₹30)
               </label>
             </div>
 
