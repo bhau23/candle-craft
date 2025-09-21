@@ -126,6 +126,15 @@ const Header = () => {
         block: 'start',
       });
     }
+  };
+
+  // Navigation handler for links
+  const handleNavigation = (linkId: string) => {
+    if (linkId === 'about') {
+      navigate('/about');
+    } else {
+      scrollToSection(linkId);
+    }
     setIsMobileMenuOpen(false); // Close mobile menu after navigation
   };
 
@@ -163,9 +172,8 @@ const Header = () => {
             {navigationLinks.map((link) => (
               <button
                 key={link.id}
-                onClick={() => link.id !== 'about' ? scrollToSection(link.id) : undefined}
+                onClick={() => handleNavigation(link.id)}
                 className="text-sm font-medium tracking-wider text-luxury-700 hover:text-luxury-gold transition-colors duration-300 ease-luxury relative group cursor-pointer bg-transparent border-none"
-                disabled={link.id === 'about'}
               >
                 {link.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-luxury-gold transition-all duration-300 ease-luxury group-hover:w-full"></span>
@@ -369,9 +377,8 @@ const Header = () => {
               {navigationLinks.map((link) => (
                 <button
                   key={link.id}
-                  onClick={() => link.id !== 'about' ? scrollToSection(link.id) : undefined}
+                  onClick={() => handleNavigation(link.id)}
                   className="block text-base font-medium text-luxury-700 hover:text-luxury-gold transition-colors duration-300 ease-luxury py-2 bg-transparent border-none cursor-pointer w-full text-left"
-                  disabled={link.id === 'about'}
                 >
                   {link.name}
                 </button>
