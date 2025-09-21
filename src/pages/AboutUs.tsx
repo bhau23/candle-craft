@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
 import aboutBg from "@/assets/images/about-bg.png";
 import story1 from "@/assets/aboutus/1.png";
 import story2 from "@/assets/aboutus/2.jpeg";
@@ -8,6 +9,16 @@ import story4 from "@/assets/aboutus/4.jpeg";
 import story5 from "@/assets/aboutus/5.jpeg";
 
 const AboutUs = () => {
+  // Scroll to top when component mounts (page loads)
+  useEffect(() => {
+    // Instant scroll to top when About Us page loads
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  }, []);
+
   return (
     <div className="min-h-screen">
       <Header />

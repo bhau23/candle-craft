@@ -60,6 +60,15 @@ const GiftProductDetail = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  }, [id]); // Re-run when gift ID changes
+
   // Gift product data
   const giftProducts: Record<string, GiftProduct> = {
     'gift1': {

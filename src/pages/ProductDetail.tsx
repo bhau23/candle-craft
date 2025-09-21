@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,15 @@ const ProductDetail = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isGift, setIsGift] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  }, [id]); // Re-run when product ID changes
 
   // Product data - dynamic based on ID
   const products: Record<number | string, Product> = {
