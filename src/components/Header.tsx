@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import logo from "@/assets/logos/logo.png";
 
@@ -16,6 +16,7 @@ const Header = () => {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
   const { getCartSummary } = useCart();
   const cartSummary = getCartSummary();
 
@@ -125,6 +126,12 @@ const Header = () => {
         behavior: 'smooth',
         block: 'start',
       });
+    } else if (sectionId === 'home') {
+      // Fallback: scroll to top if home section not found
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -132,8 +139,23 @@ const Header = () => {
   const handleNavigation = (linkId: string) => {
     if (linkId === 'about') {
       navigate('/about');
+    } else if (linkId === 'home') {
+      if (location.pathname === '/') {
+        // We're on home page, scroll to home section (top)
+        scrollToSection('home');
+      } else {
+        // We're on a different page, navigate to home page
+        navigate('/');
+      }
     } else {
-      scrollToSection(linkId);
+      // For other sections (collections, gifting), check if we're on home page
+      if (location.pathname === '/') {
+        // We're on home page, scroll to section
+        scrollToSection(linkId);
+      } else {
+        // We're on a different page, navigate to home and scroll to section
+        navigate('/', { state: { scrollTo: linkId } });
+      }
     }
     setIsMobileMenuOpen(false); // Close mobile menu after navigation
   };
@@ -154,7 +176,10 @@ const Header = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 md:h-20 items-center justify-between">
           {/* Logo */}
-          <div className="flex-shrink-0 h-10 md:h-16 w-32 md:w-44 overflow-hidden rounded-md bg-white/5">
+          <div 
+            className="flex-shrink-0 h-10 md:h-16 w-32 md:w-44 overflow-hidden rounded-md bg-white/5 cursor-pointer"
+            onClick={() => handleNavigation('home')}
+          >
             <img 
               src={logo} 
               alt="Candle Craft Logo" 

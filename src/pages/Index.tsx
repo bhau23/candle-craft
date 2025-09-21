@@ -3,9 +3,13 @@ import ProductGrid from "@/components/ProductGrid";
 import GiftingSection from "@/components/GiftingSection";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import heroImage from "@/assets/hero-candles.jpg";
 
 const Index = () => {
+  const location = useLocation();
+
   const scrollToCollection = () => {
     const collectionsSection = document.getElementById('collections');
     if (collectionsSection) {
@@ -15,6 +19,33 @@ const Index = () => {
       });
     }
   };
+
+  // Handle scrolling to sections when navigating from other pages
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const sectionId = location.state.scrollTo;
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }
+      }, 100); // Small delay to ensure page is loaded
+    } else if (location.hash) {
+      // Handle direct hash navigation (e.g., #home, #collections)
+      setTimeout(() => {
+        const element = document.getElementById(location.hash.substring(1));
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }
+      }, 100);
+    }
+  }, [location]);
 
   return (
     <div className="min-h-screen bg-background">
