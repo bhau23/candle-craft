@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/hooks/use-toast";
+import { AuthPromptDialog } from "./auth/AuthPromptDialog";
 import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
 import product1_3 from "@/assets/products/product1/3.png";
@@ -174,6 +175,7 @@ const ProductGrid = () => {
 const ProductCard = ({ product }: { product: any }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
@@ -208,11 +210,23 @@ const ProductCard = ({ product }: { product: any }) => {
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
-    addToCart(product);
-    toast({
-      title: "Added to Cart",
-      description: `${product.name} has been added to your cart.`,
-    });
+    try {
+      addToCart(product);
+      toast({
+        title: "Added to Cart",
+        description: `${product.name} has been added to your cart.`,
+      });
+    } catch (error: any) {
+      if (error.message === 'AUTHENTICATION_REQUIRED') {
+        setShowAuthPrompt(true);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add item to cart. Please try again.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (
@@ -274,6 +288,13 @@ const ProductCard = ({ product }: { product: any }) => {
           </span>
         </div>
       </div>
+
+      {/* Authentication Prompt Dialog */}
+      <AuthPromptDialog
+        open={showAuthPrompt}
+        onOpenChange={setShowAuthPrompt}
+        action="add-to-cart"
+      />
     </div>
   );
 };

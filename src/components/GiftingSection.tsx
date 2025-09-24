@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/hooks/use-toast";
+import { AuthPromptDialog } from "./auth/AuthPromptDialog";
 import gift1_1 from "@/assets/products/gift1/1.png";
 import gift1_2 from "@/assets/products/gift1/2.png";
 import gift1_3 from "@/assets/products/gift1/3.png";
@@ -68,6 +69,7 @@ const GiftingSection = () => {
   const { addToCart } = useCart();
   const [currentImageIndexes, setCurrentImageIndexes] = useState<{[key: string]: number}>({});
   const [hoveringProduct, setHoveringProduct] = useState<string | null>(null);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   const handleProductClick = (productId: string, e?: React.MouseEvent) => {
     // Don't navigate if clicking on the Quick Add button
@@ -79,11 +81,23 @@ const GiftingSection = () => {
 
   const handleQuickAdd = (product: any, e: React.MouseEvent) => {
     e.stopPropagation();
-    addToCart(product, true); // Gift products default to isGift=true
-    toast({
-      title: "Added to Cart",
-      description: `${product.name} has been added to your cart as a gift.`,
-    });
+    try {
+      addToCart(product, true); // Gift products default to isGift=true
+      toast({
+        title: "Added to Cart",
+        description: `${product.name} has been added to your cart as a gift.`,
+      });
+    } catch (error: any) {
+      if (error.message === 'AUTHENTICATION_REQUIRED') {
+        setShowAuthPrompt(true);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add item to cart. Please try again.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   const handleMouseEnter = (productId: string) => {
@@ -199,6 +213,13 @@ const GiftingSection = () => {
           </Button>
         </div>
       </div>
+
+      {/* Authentication Prompt Dialog */}
+      <AuthPromptDialog
+        open={showAuthPrompt}
+        onOpenChange={setShowAuthPrompt}
+        action="add-to-cart"
+      />
     </section>
   );
 };

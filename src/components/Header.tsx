@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, User, ShoppingBag, Menu, X } from "lucide-react";
+import { Search, User, ShoppingBag, Menu, X, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import logo from "@/assets/logos/logo.png";
 
 const Header = () => {
@@ -18,6 +19,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { getCartSummary } = useCart();
+  const { currentUser, userProfile, logout } = useAuth();
   const cartSummary = getCartSummary();
 
   // All searchable products data
@@ -160,6 +162,38 @@ const Header = () => {
     setIsMobileMenuOpen(false); // Close mobile menu after navigation
   };
 
+  // Handle authentication actions
+  const handleAuthAction = () => {
+    if (currentUser) {
+      // User is logged in, redirect based on role
+      if (userProfile?.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/profile');
+      }
+    } else {
+      // User is not logged in, redirect to auth page
+      navigate('/auth');
+    }
+  };
+
+  const handleCartClick = () => {
+    if (currentUser) {
+      navigate('/cart');
+    } else {
+      navigate('/auth');
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   const navigationLinks = [
     { name: "HOME", id: "home" },
     { name: "COLLECTIONS", id: "collections" },
@@ -220,14 +254,46 @@ const Header = () => {
               </Button>
             </div>
             
-            <Button variant="luxury-ghost" size="icon" className="relative">
-              <User className="h-5 w-5" />
-            </Button>
+            {/* User Authentication */}
+            <div className="flex items-center space-x-2">
+              {currentUser ? (
+                <div className="flex items-center space-x-2">
+                  <Button 
+                    variant="luxury-ghost" 
+                    size="icon" 
+                    className="relative"
+                    onClick={handleAuthAction}
+                    title={userProfile?.fullName || 'Profile'}
+                  >
+                    <User className="h-5 w-5" />
+                  </Button>
+                  <Button
+                    variant="luxury-ghost"
+                    size="icon"
+                    onClick={handleLogout}
+                    title="Logout"
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </div>
+              ) : (
+                <Button 
+                  variant="luxury-ghost" 
+                  size="icon" 
+                  className="relative"
+                  onClick={handleAuthAction}
+                  title="Login / Sign Up"
+                >
+                  <User className="h-5 w-5" />
+                </Button>
+              )}
+            </div>
+            
             <Button 
               variant="luxury-ghost" 
               size="icon" 
               className="relative"
-              onClick={() => navigate('/cart')}
+              onClick={handleCartClick}
             >
               <ShoppingBag className="h-5 w-5" />
               {cartSummary.totalItems > 0 && (
@@ -244,7 +310,7 @@ const Header = () => {
               variant="luxury-ghost" 
               size="icon" 
               className="relative h-10 w-10"
-              onClick={() => navigate('/cart')}
+              onClick={handleCartClick}
             >
               <ShoppingBag className="h-4 w-4" />
               {cartSummary.totalItems > 0 && (
@@ -408,10 +474,52 @@ const Header = () => {
                   {link.name}
                 </button>
               ))}
-              <div className="flex items-center space-x-4 pt-4 border-t border-luxury-200">
-                <Button variant="luxury-ghost" size="icon">
-                  <User className="h-5 w-5" />
-                </Button>
+              
+              {/* Mobile Auth Section */}
+              <div className="flex items-center justify-between pt-4 border-t border-luxury-200">
+                {currentUser ? (
+                  <div className="flex items-center space-x-4">
+                    <Button
+                      variant="luxury-ghost"
+                      size="sm"
+                      onClick={() => {
+                        handleAuthAction();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2"
+                    >
+                      <User className="h-4 w-4" />
+                      <span className="text-sm">
+                        {userProfile?.role === 'admin' ? 'Admin Panel' : 'My Profile'}
+                      </span>
+                    </Button>
+                    <Button
+                      variant="luxury-ghost"
+                      size="sm"
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="flex items-center space-x-2"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      <span className="text-sm">Logout</span>
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    variant="luxury-ghost"
+                    size="sm"
+                    onClick={() => {
+                      handleAuthAction();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex items-center space-x-2"
+                  >
+                    <User className="h-4 w-4" />
+                    <span className="text-sm">Login / Sign Up</span>
+                  </Button>
+                )}
               </div>
             </div>
           </div>

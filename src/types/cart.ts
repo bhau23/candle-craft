@@ -34,4 +34,5 @@ export interface CartContextType {
   clearCart: () => void;
   getCartSummary: () => CartSummary;
   isInCart: (productId: number | string) => boolean;
+  checkout: (selectedAddressId: string) => Promise<string>;
 }

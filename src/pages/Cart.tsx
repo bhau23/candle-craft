@@ -1,10 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
   ArrowLeft, 
   Minus, 
@@ -24,9 +32,14 @@ import {
 } from "@/components/ui/dialog";
 
 const Cart = () => {
-  const { items, removeFromCart, updateQuantity, getCartSummary } = useCart();
+  const { items, removeFromCart, updateQuantity, getCartSummary, checkout } = useCart();
+  const { currentUser, userProfile } = useAuth();
   const navigate = useNavigate();
   const summary = getCartSummary();
+  
+  // State for checkout
+  const [selectedAddressId, setSelectedAddressId] = useState('');
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -36,6 +49,41 @@ const Cart = () => {
       behavior: 'instant'
     });
   }, []);
+
+  // Set default address when user profile loads
+  useEffect(() => {
+    if (userProfile?.addresses?.length > 0) {
+      const defaultAddress = userProfile.addresses.find(addr => addr.isDefault);
+      if (defaultAddress) {
+        setSelectedAddressId(defaultAddress.id);
+      } else {
+        setSelectedAddressId(userProfile.addresses[0].id);
+      }
+    }
+  }, [userProfile]);
+
+  const handleCheckout = async () => {
+    if (!currentUser) {
+      navigate('/auth');
+      return;
+    }
+
+    if (!selectedAddressId) {
+      alert('Please select a delivery address');
+      return;
+    }
+
+    setIsCheckingOut(true);
+    try {
+      const orderId = await checkout(selectedAddressId);
+      alert(`Order placed successfully! Order ID: ${orderId.slice(-6)}`);
+      navigate('/profile', { state: { activeTab: 'orders' } });
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      alert('Failed to place order. Please try again.');
+    }
+    setIsCheckingOut(false);
+  };
 
   if (items.length === 0) {
     return (
@@ -260,11 +308,39 @@ const Cart = () => {
                   <span>₹{summary.total.toFixed(2)}</span>
                 </div>
 
+                {/* Address Selection for logged-in users */}
+                {currentUser && userProfile && userProfile.addresses.length > 0 && (
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">
+                      Select Delivery Address:
+                    </label>
+                    <Select value={selectedAddressId} onValueChange={setSelectedAddressId}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Choose an address..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {userProfile.addresses.map((address) => (
+                          <SelectItem key={address.id} value={address.id}>
+                            <div className="flex flex-col">
+                              <span className="font-medium">{address.label}</span>
+                              <span className="text-xs text-gray-500">
+                                {address.addressLine1}, {address.city}
+                              </span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+
                 <Button 
                   className="w-full bg-amber-600 hover:bg-amber-700 text-white"
                   size="lg"
+                  onClick={handleCheckout}
+                  disabled={isCheckingOut}
                 >
-                  Proceed to Checkout
+                  {isCheckingOut ? 'Placing Order...' : 'Proceed to Checkout'}
                 </Button>
 
                 <Button 

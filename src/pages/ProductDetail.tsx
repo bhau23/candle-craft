@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Share2 } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { toast } from "@/hooks/use-toast";
+import { AuthPromptDialog } from "@/components/auth/AuthPromptDialog";
 import ImagePreview from "@/components/ImagePreview";
 import product1_1 from "@/assets/products/product1/1.png";
 import product1_2 from "@/assets/products/product1/2.png";
@@ -48,6 +49,7 @@ const ProductDetail = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isGift, setIsGift] = useState(false);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -175,16 +177,40 @@ const ProductDetail = () => {
   const product = products[parseInt(id || '1')] || products[1];
   
   const handleAddToCart = () => {
-    addToCart(product, isGift);
-    toast({
-      title: "Added to Cart",
-      description: `${product.name} has been added to your cart${isGift ? ' as a gift' : ''}.`,
-    });
+    try {
+      addToCart(product, isGift);
+      toast({
+        title: "Added to Cart",
+        description: `${product.name} has been added to your cart${isGift ? ' as a gift' : ''}.`,
+      });
+    } catch (error: any) {
+      if (error.message === 'AUTHENTICATION_REQUIRED') {
+        setShowAuthPrompt(true);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add item to cart. Please try again.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   const handleBuyNow = () => {
-    addToCart(product, isGift);
-    navigate('/cart');
+    try {
+      addToCart(product, isGift);
+      navigate('/cart');
+    } catch (error: any) {
+      if (error.message === 'AUTHENTICATION_REQUIRED') {
+        setShowAuthPrompt(true);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add item to cart. Please try again.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (
@@ -367,6 +393,13 @@ const ProductDetail = () => {
         onClose={() => setIsPreviewOpen(false)}
         image={product.images[selectedImage]}
         alt={`${product.name} - View ${selectedImage + 1}`}
+      />
+
+      {/* Authentication Prompt Dialog */}
+      <AuthPromptDialog
+        open={showAuthPrompt}
+        onOpenChange={setShowAuthPrompt}
+        action="add-to-cart"
       />
     </div>
   );

@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '@/config/firebase';
+import { useAuth } from '@/contexts/AuthContext';
 import { CartItem, Product, CartSummary, CartContextType } from '@/types/cart';
+import { Order, OrderItem } from '@/types/auth';
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
@@ -9,6 +13,7 @@ const GIFT_CHARGE = 30;
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const { currentUser, userProfile } = useAuth();
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -38,6 +43,11 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [items]);
 
   const addToCart = (product: Product, isGift: boolean = false, quantity: number = 1) => {
+    // Check if user is authenticated
+    if (!currentUser) {
+      throw new Error('AUTHENTICATION_REQUIRED');
+    }
+
     const timestamp = Date.now();
     const itemId = `${product.id}-${timestamp}`;
     
@@ -107,6 +117,51 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return items.some(item => item.product.id === productId);
   };
 
+  const checkout = async (selectedAddressId: string): Promise<string> => {
+    if (!currentUser || !userProfile) {
+      throw new Error('User must be logged in to checkout');
+    }
+
+    const selectedAddress = userProfile.addresses.find(addr => addr.id === selectedAddressId);
+    if (!selectedAddress) {
+      throw new Error('Selected address not found');
+    }
+
+    const orderItems: OrderItem[] = items.map(item => ({
+      productId: item.product.id.toString(),
+      productName: item.product.name,
+      productImage: item.product.images[0] || '',
+      quantity: item.quantity,
+      price: item.product.price,
+      total: item.product.price * item.quantity
+    }));
+
+    const summary = getCartSummary();
+    
+    const order: Omit<Order, 'id'> = {
+      userId: currentUser.uid,
+      items: orderItems,
+      deliveryAddress: selectedAddress,
+      orderTotal: summary.total,
+      status: 'pending_payment',
+      paymentStatus: 'pending',
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+
+    try {
+      const docRef = await addDoc(collection(db, 'orders'), order);
+      
+      // Clear cart after successful order
+      clearCart();
+      
+      return docRef.id;
+    } catch (error) {
+      console.error('Error creating order:', error);
+      throw error;
+    }
+  };
+
   const value: CartContextType = {
     items,
     addToCart,
@@ -114,7 +169,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     updateQuantity,
     clearCart,
     getCartSummary,
-    isInCart
+    isInCart,
+    checkout
   };
 
   return (
